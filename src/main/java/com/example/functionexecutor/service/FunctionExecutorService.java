@@ -2,7 +2,7 @@ package com.example.functionexecutor.service;
 
 import com.example.functionexecutor.entity.ExecutableFunction;
 import com.example.functionexecutor.repository.FunctionHolder;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,9 +18,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class FunctionExecutorService {
-    @Autowired
-    private FunctionHolder holder;
+    private final FunctionHolder holder;
 
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
 
