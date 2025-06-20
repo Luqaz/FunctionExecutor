@@ -60,10 +60,17 @@ public class FunctionExecutorService {
 
     private Mono<String> createExecutionMono(int fnIndex, ExecutableFunction function, int input, AtomicInteger buffer, Scheduler scheduler, boolean includeFnIndex) {
         return Mono.fromCallable(() -> {
+                    String formattedResult;
                     long start = System.nanoTime();
-                    double result = function.execute(input);
+                    try {
+                        double result = function.execute(input);
+                        formattedResult = String.format("%.2f", result);
+                    } catch (Exception ex) {
+                        formattedResult = String.format("%s", ex.getMessage());
+                    }
                     long duration = (System.nanoTime() - start) / 1000;
-                    String formattedResult = String.format("%.2f,%d", result, duration);
+                    formattedResult  = String.format("%s,%d", formattedResult, duration);
+
                     if (includeFnIndex) {
                         formattedResult = String.format("%d,%s", fnIndex, formattedResult);
                     } else {
